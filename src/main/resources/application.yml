@@ -1,0 +1,5 @@
+spring:
+  application:
+    name: techblitz-storage-service
+server:
+  port: "${SERVER_PORT}"
