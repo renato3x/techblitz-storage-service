@@ -1,6 +1,8 @@
-aws:
-  region: "${AWS_REGION}"
-  accessKey: "${AWS_ACCESS_KEY_ID}"
-  secretKey: "${AWS_SECRET_ACCESS_KEY}"
-  s3:
-    endpoint: "${AWS_ENDPOINT}"
+storage:
+  provider: ${STORAGE_PROVIDER}
+  aws-s3:
+    region: ${AWS_REGION}
+    access-key-id: ${AWS_ACCESS_KEY_ID}
+    secret-access-key: ${AWS_SECRET_ACCESS_KEY}
+    endpoint: ${AWS_ENDPOINT}
+    bucket-name: ${AWS_BUCKET_NAME}
