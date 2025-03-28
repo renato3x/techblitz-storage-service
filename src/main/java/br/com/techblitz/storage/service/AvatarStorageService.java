@@ -25,7 +25,7 @@ public class AvatarStorageService {
     var fullFilename = filename + "." + extension;
     var path = "/avatars/" + username + "/" + fullFilename;
     var url = this.applicationConfig.getUrl() + path;
-
+    
     this.storageManager.upload(file, path);
     return new FileUploadResponseDTO(fullFilename, file.getContentType(), url, file.getSize());
   }
