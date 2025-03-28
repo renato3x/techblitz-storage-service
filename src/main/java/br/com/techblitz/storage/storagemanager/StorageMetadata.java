@@ -1,3 +1,13 @@
 package br.com.techblitz.storage.storagemanager;
 
-public record StorageMetadata(String filename, String contentType, Long size, String url) {}
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
+@Getter
+@AllArgsConstructor
+public class StorageMetadata {
+  private final String filename;
+  private final String contentType;
+  private final Long size;
+  private final String url;
+}
