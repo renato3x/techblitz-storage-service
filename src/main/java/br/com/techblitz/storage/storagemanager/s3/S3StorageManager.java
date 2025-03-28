@@ -85,7 +85,7 @@ public class S3StorageManager implements StorageManager {
     
     try {
       ResponseInputStream<GetObjectResponse> response = this.s3Client.getObject(request);
-      String contentType = response.response().contentType();;
+      String contentType = response.response().contentType();
       Long size = response.response().contentLength();
       return new StorageFile(filename, contentType, size, url, response.readAllBytes());
     } catch (Exception e) {

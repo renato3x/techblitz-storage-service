@@ -4,16 +4,14 @@ import br.com.techblitz.storage.dto.Response;
 import br.com.techblitz.storage.service.storage.AvatarStorageService;
 import br.com.techblitz.storage.storagemanager.StorageFile;
 import br.com.techblitz.storage.storagemanager.StorageMetadata;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.util.MimeType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 @RestController
-@RequestMapping("/avatars")
+@RequestMapping("/v1/avatars")
 public class AvatarStorageController {
   private final AvatarStorageService avatarStorageService;
   

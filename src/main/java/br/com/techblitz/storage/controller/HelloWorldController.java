@@ -8,7 +8,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/")
+@RequestMapping("/v1")
 public class HelloWorldController {
     @GetMapping
     public Map<String, String> helloWorld() {
