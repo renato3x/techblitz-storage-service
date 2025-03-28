@@ -1,5 +1,10 @@
 spring:
   application:
     name: techblitz-storage-service
+  servlet:
+    multipart:
+      max-file-size: 100MB
 server:
   port: ${SERVER_PORT}
+app:
+  url: ${SERVER_URL}
