@@ -1,5 +1,6 @@
 package br.com.techblitz.storage.storagemanager.s3;
 
+import br.com.techblitz.storage.storagemanager.Download;
 import br.com.techblitz.storage.storagemanager.StorageManager;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
@@ -10,6 +11,7 @@ import software.amazon.awssdk.core.sync.RequestBody;
 import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.s3.S3Client;
 import software.amazon.awssdk.services.s3.S3Configuration;
+import software.amazon.awssdk.services.s3.model.GetObjectRequest;
 import software.amazon.awssdk.services.s3.model.PutObjectRequest;
 
 import java.net.URI;
@@ -52,10 +54,27 @@ public class S3StorageManager implements StorageManager {
         .contentType(file.getContentType())
         .build();
       
-      s3Client.putObject(putObjectRequest, RequestBody.fromBytes(file.getBytes()));
-
+      this.s3Client.putObject(putObjectRequest, RequestBody.fromBytes(file.getBytes()));
     } catch (Exception e) {
       throw new RuntimeException("Error storing file");
+    }
+  }
+  @Override
+  public Download download(String path) {
+    var getObjectRequest = GetObjectRequest.builder()
+      .bucket(this.config.getBucketName())
+      .key(path)
+      .build();
+    
+    var response = this.s3Client.getObject(getObjectRequest);
+    
+    try {
+      var contentType = response.response().contentType();
+      var bytes = response.readAllBytes();
+      
+      return new Download(bytes, path, contentType);
+    } catch (Exception e) {
+      throw new RuntimeException("Error downloading file");
     }
   }
 }

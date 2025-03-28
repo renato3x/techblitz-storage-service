@@ -2,6 +2,7 @@ package br.com.techblitz.storage.service;
 
 import br.com.techblitz.storage.config.ApplicationConfig;
 import br.com.techblitz.storage.dto.response.FileUploadResponse;
+import br.com.techblitz.storage.storagemanager.Download;
 import br.com.techblitz.storage.storagemanager.StorageManager;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.stereotype.Service;
@@ -28,5 +29,10 @@ public class AvatarStorageService {
     
     this.storageManager.upload(file, path);
     return new FileUploadResponse(fullFilename, file.getContentType(), url, file.getSize());
+  }
+  
+  public Download download(String username, String filename) {
+    var path = "/avatars/" + username + "/" + filename;
+    return this.storageManager.download(path);
   }
 }

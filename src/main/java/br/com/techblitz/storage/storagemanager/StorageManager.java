@@ -4,4 +4,5 @@ import org.springframework.web.multipart.MultipartFile;
 
 public interface StorageManager {
   public void upload(MultipartFile file, String path);
+  public Download download(String path);
 }
