@@ -1,4 +1,4 @@
-package br.com.techblitz.storage.dto.response;
+package br.com.techblitz.storage.dto;
 
 import lombok.Getter;
 

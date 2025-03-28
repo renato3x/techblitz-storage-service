@@ -1,7 +1,8 @@
 package br.com.techblitz.storage.storagemanager.s3;
 
-import br.com.techblitz.storage.storagemanager.Download;
+import br.com.techblitz.storage.config.ApplicationConfig;
 import br.com.techblitz.storage.storagemanager.StorageManager;
+import br.com.techblitz.storage.storagemanager.StorageMetadata;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
@@ -10,29 +11,37 @@ import software.amazon.awssdk.auth.credentials.StaticCredentialsProvider;
 import software.amazon.awssdk.core.sync.RequestBody;
 import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.s3.S3Client;
+import software.amazon.awssdk.services.s3.S3ClientBuilder;
 import software.amazon.awssdk.services.s3.S3Configuration;
-import software.amazon.awssdk.services.s3.model.GetObjectRequest;
 import software.amazon.awssdk.services.s3.model.PutObjectRequest;
 
+import java.io.InputStream;
 import java.net.URI;
 
 @Component
 @ConditionalOnProperty(name = "storage.provider", havingValue = "aws-s3")
 public class S3StorageManager implements StorageManager {
+  private final ApplicationConfig applicationConfig;
   private final S3StorageManagerConfig config;
-  private final S3Client s3Client;
+  private S3Client s3Client;
   
-  public S3StorageManager(S3StorageManagerConfig config) {
+  public S3StorageManager(S3StorageManagerConfig config, ApplicationConfig applicationConfig) {
     this.config = config;
-    var credentials = AwsBasicCredentials.create(
+    this.applicationConfig = applicationConfig;
+    this.createS3Client();
+  }
+  
+  private void createS3Client() {
+    AwsBasicCredentials credentials = AwsBasicCredentials.create(
       this.config.getAccessKeyId(),
       this.config.getSecretAccessKey()
     );
 
-    var builder = S3Client.builder();
+    S3ClientBuilder builder = S3Client.builder();
     builder.region(Region.of(this.config.getRegion()));
     builder.credentialsProvider(StaticCredentialsProvider.create(credentials));
-    
+
+    // configuration to use LocalStack
     if (this.config.getEndpoint() != null && !this.config.getEndpoint().isBlank()) {
       builder.endpointOverride(URI.create(this.config.getEndpoint()));
       builder.serviceConfiguration(
@@ -41,40 +50,26 @@ public class S3StorageManager implements StorageManager {
           .build()
       );
     }
-    
+
     this.s3Client = builder.build();
   }
   
   @Override
-  public void upload(MultipartFile file, String path) {
-    try {
-      var putObjectRequest = PutObjectRequest.builder()
-        .bucket(this.config.getBucketName())
-        .key(path)
-        .contentType(file.getContentType())
-        .build();
-      
-      this.s3Client.putObject(putObjectRequest, RequestBody.fromBytes(file.getBytes()));
-    } catch (Exception e) {
-      throw new RuntimeException("Error storing file");
-    }
-  }
-  @Override
-  public Download download(String path) {
-    var getObjectRequest = GetObjectRequest.builder()
+  public StorageMetadata upload(MultipartFile file, String path, String filename) {
+    final String finalPath = path + "/" + filename;
+    String url = this.applicationConfig.getUrl() + "/" + finalPath;
+    PutObjectRequest putObjectRequest = PutObjectRequest.builder()
       .bucket(this.config.getBucketName())
-      .key(path)
+      .key(finalPath)
+      .contentType(file.getContentType())
       .build();
     
-    var response = this.s3Client.getObject(getObjectRequest);
-    
     try {
-      var contentType = response.response().contentType();
-      var bytes = response.readAllBytes();
-      
-      return new Download(bytes, path, contentType);
+      InputStream fileInputStream = file.getInputStream();
+      this.s3Client.putObject(putObjectRequest, RequestBody.fromBytes(fileInputStream.readAllBytes()));
+      return new StorageMetadata(filename, file.getContentType(), file.getSize(), url);
     } catch (Exception e) {
-      throw new RuntimeException("Error downloading file");
+      throw new RuntimeException(e);
     }
   }
 }
