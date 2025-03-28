@@ -44,10 +44,7 @@ public class S3StorageManager implements StorageManager {
   }
   
   @Override
-  public String upload(MultipartFile file, String path) {
-    System.out.println(this.config.getEndpoint());
-    System.out.println(this.config.getBucketName());
-    
+  public void upload(MultipartFile file, String path) {
     try {
       var putObjectRequest = PutObjectRequest.builder()
         .bucket(this.config.getBucketName())
@@ -56,10 +53,9 @@ public class S3StorageManager implements StorageManager {
         .build();
       
       s3Client.putObject(putObjectRequest, RequestBody.fromBytes(file.getBytes()));
-  
-      return path;
+
     } catch (Exception e) {
-      throw new RuntimeException("Error storing file", e);
+      throw new RuntimeException("Error storing file");
     }
   }
 }

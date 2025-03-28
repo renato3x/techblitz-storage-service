@@ -1,18 +1,19 @@
-package br.com.techblitz.storage.dto;
+package br.com.techblitz.storage.dto.response;
 
 import lombok.Getter;
-import org.springframework.http.HttpStatus;
 
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 
 @Getter
-public abstract class ResponseDTO {
+public class Response<T> {
   private final OffsetDateTime timestamp;
   private final Integer status;
+  private final T data;
   
-  public ResponseDTO(Integer status) {
+  public Response(Integer status, T data) {
     this.timestamp = OffsetDateTime.now(ZoneOffset.UTC);
     this.status = status;
+    this.data = data;
   }
 }

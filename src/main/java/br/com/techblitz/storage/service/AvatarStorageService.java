@@ -1,7 +1,7 @@
 package br.com.techblitz.storage.service;
 
 import br.com.techblitz.storage.config.ApplicationConfig;
-import br.com.techblitz.storage.dto.FileUploadResponseDTO;
+import br.com.techblitz.storage.dto.response.FileUploadResponse;
 import br.com.techblitz.storage.storagemanager.StorageManager;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.stereotype.Service;
@@ -19,7 +19,7 @@ public class AvatarStorageService {
     this.applicationConfig = applicationConfig;
   }
   
-  public FileUploadResponseDTO upload(MultipartFile file, String username) {
+  public FileUploadResponse upload(MultipartFile file, String username) {
     var filename = UUID.randomUUID().toString();
     var extension = FilenameUtils.getExtension(file.getOriginalFilename());
     var fullFilename = filename + "." + extension;
@@ -27,6 +27,6 @@ public class AvatarStorageService {
     var url = this.applicationConfig.getUrl() + path;
     
     this.storageManager.upload(file, path);
-    return new FileUploadResponseDTO(fullFilename, file.getContentType(), url, file.getSize());
+    return new FileUploadResponse(fullFilename, file.getContentType(), url, file.getSize());
   }
 }
