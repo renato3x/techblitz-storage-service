@@ -4,6 +4,7 @@ import br.com.techblitz.storage.config.ApplicationConfig;
 import br.com.techblitz.storage.storagemanager.StorageFile;
 import br.com.techblitz.storage.storagemanager.StorageManager;
 import br.com.techblitz.storage.storagemanager.StorageMetadata;
+import br.com.techblitz.storage.storagemanager.exception.StorageNotFoundException;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
@@ -17,6 +18,7 @@ import software.amazon.awssdk.services.s3.S3ClientBuilder;
 import software.amazon.awssdk.services.s3.S3Configuration;
 import software.amazon.awssdk.services.s3.model.GetObjectRequest;
 import software.amazon.awssdk.services.s3.model.GetObjectResponse;
+import software.amazon.awssdk.services.s3.model.NoSuchKeyException;
 import software.amazon.awssdk.services.s3.model.PutObjectRequest;
 
 import java.io.InputStream;
@@ -88,6 +90,8 @@ public class S3StorageManager implements StorageManager {
       String contentType = response.response().contentType();
       Long size = response.response().contentLength();
       return new StorageFile(filename, contentType, size, url, response.readAllBytes());
+    } catch (NoSuchKeyException e) {
+      throw new StorageNotFoundException(filename);
     } catch (Exception e) {
       throw new RuntimeException(e);
     }
