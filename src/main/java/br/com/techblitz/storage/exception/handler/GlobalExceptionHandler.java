@@ -12,8 +12,8 @@ public class GlobalExceptionHandler {
   @ExceptionHandler(RequestException.class)
   public ResponseEntity<ErrorResponse> handleResponseStatusException(RequestException exception) {
     ErrorResponse response = new ErrorResponse(
-      exception.getMessage(),
       exception.getStatus().value(),
+      exception.getMessage(),
       exception.getDetails()
     );
     
@@ -23,8 +23,8 @@ public class GlobalExceptionHandler {
   @ExceptionHandler(Exception.class)
   public ResponseEntity<ErrorResponse> handleException(Exception e) {
     ErrorResponse response = new ErrorResponse(
-      "Unexpected error occurred",
-      HttpStatus.INTERNAL_SERVER_ERROR.value()
+      HttpStatus.INTERNAL_SERVER_ERROR.value(),
+      "Unexpected error occurred"
     );
     
     return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);

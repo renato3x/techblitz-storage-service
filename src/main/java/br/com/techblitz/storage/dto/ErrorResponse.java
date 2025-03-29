@@ -13,14 +13,14 @@ public class ErrorResponse {
   private final OffsetDateTime timestamp;
   private final Object details;
   
-  public ErrorResponse(String message, Integer status, Object details) {
+  public ErrorResponse(Integer status, String message, Object details) {
     this.message = message;
     this.status = status;
     this.timestamp = OffsetDateTime.now();
     this.details = details;
   }
 
-  public ErrorResponse(String message, Integer status) {
+  public ErrorResponse(Integer status, String message) {
     this.message = message;
     this.status = status;
     this.timestamp = OffsetDateTime.now();

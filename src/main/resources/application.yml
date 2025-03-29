@@ -8,3 +8,8 @@ server:
   port: ${SERVER_PORT}
 app:
   url: ${SERVER_URL}
+  allowed-image-extensions:
+    - png
+    - jpg
+    - jpeg
+    - webp

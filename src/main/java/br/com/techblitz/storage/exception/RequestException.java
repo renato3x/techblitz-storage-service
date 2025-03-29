@@ -9,17 +9,17 @@ import java.io.Serial;
 public class RequestException extends RuntimeException {
   @Serial
   private static final long serialVersionUID = 1L;
-  private final String message;
   private final HttpStatus status;
+  private final String message;
   private final Object details;
   
-  public RequestException(String message, HttpStatus status, Object details) {
+  public RequestException(HttpStatus status, String message, Object details) {
     this.message = message;
     this.status = status;
     this.details = details;
   }
   
-  public RequestException(String message, HttpStatus status) {
-    this(message, status, null);
+  public RequestException(HttpStatus status, String message) {
+    this(status, message, null);
   }
 }
