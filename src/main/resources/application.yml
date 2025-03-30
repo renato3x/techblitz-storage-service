@@ -6,7 +6,7 @@ spring:
       max-file-size: 100MB
 server:
   port: ${SERVER_PORT}
-app:
+application:
   url: ${SERVER_URL}
   allowed-image-extensions:
     - png

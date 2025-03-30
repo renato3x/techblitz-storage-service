@@ -10,7 +10,7 @@ import java.util.List;
 @Getter
 @Setter
 @Configuration
-@ConfigurationProperties(prefix = "app")
+@ConfigurationProperties(prefix = "application")
 public class ApplicationConfig {
   private String url;
   private List<String> allowedImageExtensions;
