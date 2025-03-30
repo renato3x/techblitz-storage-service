@@ -16,3 +16,5 @@ application:
 security:
   jwt:
     signin-key: ${JWT_SECRET}
+    issuer: ${JWT_ISSUER}
+    audience: ${JWT_AUDIENCE}
