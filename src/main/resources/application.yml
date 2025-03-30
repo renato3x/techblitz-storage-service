@@ -13,3 +13,6 @@ application:
     - jpg
     - jpeg
     - webp
+security:
+  jwt:
+    signin-key: ${JWT_SECRET}
