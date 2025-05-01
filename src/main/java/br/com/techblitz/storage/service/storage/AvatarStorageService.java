@@ -33,7 +33,7 @@ public class AvatarStorageService {
         "The image extension is not allowed",
         Map.of(
           "extension", extension == null ? "" : extension,
-          "allowedExtensions", this.applicationConfig.getAllowedImageExtensions()
+          "allowed_extensions", this.applicationConfig.getAllowedImageExtensions()
         )
       );
     }
