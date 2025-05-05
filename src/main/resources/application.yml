@@ -8,6 +8,7 @@ server:
   port: ${SERVER_PORT}
 application:
   url: ${SERVER_URL}
+  client-url: ${CLIENT_URL}
   allowed-image-extensions:
     - png
     - jpg

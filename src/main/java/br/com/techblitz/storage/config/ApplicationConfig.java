@@ -14,6 +14,7 @@ import java.util.List;
 public class ApplicationConfig {
   private String url;
   private List<String> allowedImageExtensions;
+  private String clientUrl;
   
   public boolean isAllowedImageExtension(String extension) {
     return allowedImageExtensions.contains(extension);
