@@ -4,5 +4,4 @@ storage:
     region: ${AWS_REGION}
     access-key-id: ${AWS_ACCESS_KEY_ID}
     secret-access-key: ${AWS_SECRET_ACCESS_KEY}
-    endpoint: ${AWS_ENDPOINT}
     bucket-name: ${AWS_BUCKET_NAME}

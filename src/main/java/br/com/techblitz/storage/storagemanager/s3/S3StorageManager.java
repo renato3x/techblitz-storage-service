@@ -47,16 +47,6 @@ public class S3StorageManager implements StorageManager {
     builder.region(Region.of(this.config.getRegion()));
     builder.credentialsProvider(StaticCredentialsProvider.create(credentials));
 
-    // configuration to use LocalStack
-    if (this.config.getEndpoint() != null && !this.config.getEndpoint().isBlank()) {
-      builder.endpointOverride(URI.create(this.config.getEndpoint()));
-      builder.serviceConfiguration(
-        S3Configuration.builder()
-          .pathStyleAccessEnabled(true)
-          .build()
-      );
-    }
-
     this.s3Client = builder.build();
   }
   

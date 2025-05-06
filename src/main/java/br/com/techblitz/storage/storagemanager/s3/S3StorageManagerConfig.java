@@ -15,6 +15,5 @@ public class S3StorageManagerConfig {
   private String region;
   private String accessKeyId;
   private String secretAccessKey;
-  private String endpoint;
   private String bucketName;
 }
