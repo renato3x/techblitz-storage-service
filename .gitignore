@@ -32,3 +32,4 @@ out/
 .terraform
 .terraform.lock.hcl
 *.out
+terraform.tfstate
