@@ -28,3 +28,7 @@ out/
 /.nb-gradle/
 .vscode/
 .env
+*.tfvars
+.terraform
+.terraform.lock.hcl
+*.out
